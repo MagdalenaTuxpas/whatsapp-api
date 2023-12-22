@@ -19,7 +19,7 @@ class WhatsappApiStack(Stack):
         lambda_mll_handler = _lambda.Function(
             self,
             "lambda_mll_handler",
-            runtime=_lambda.Runtime.PYTHON_3_7,
+            runtime=_lambda.Runtime.PYTHON_3_8,
             handler="second-lambda.handler",
             code=_lambda.Code.from_asset(path_lambdas + "second-lambda"),
         )
