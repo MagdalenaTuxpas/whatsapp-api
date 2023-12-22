@@ -1,6 +1,4 @@
 import json
-from requests.adapters import HTTPAdapter
-from urllib3.util.retry import Retry
 import requests
 import boto3
 import os
@@ -32,7 +30,7 @@ def send_response_to_wp(sender_id, sender_text):
     print(f"This is the response sent to wp: {response}")
 
 
-# Get LLM EC2 instance ip
+# Get LLM EC2 instance IP
 def get_public_ipv4(ec2_id: str):
     ec2 = boto3.client("ec2")
     instance_info = ec2.describe_instances(
@@ -46,9 +44,7 @@ def get_public_ipv4(ec2_id: str):
         ],
         InstanceIds=[ec2_id],
     )
-
     public_ip = instance_info["Reservations"][0]["Instances"][0]["PublicIpAddress"]
-
     return public_ip
 
 
@@ -56,7 +52,6 @@ def get_public_ipv4(ec2_id: str):
 def post_prompt(post_prompt, api_url):
     try:
         response = requests.post(api_url, data={"item": post_prompt})
-
         if response.status_code == 200:
             result = response.json()
             return result
@@ -71,7 +66,7 @@ def handler(event, context):
         sender_text = event["sender_text"]
         sender_id = event["sender_id"]
         print(f"This is the original text: {sender_text}")
-        send_response_to_wp(sender_id, "Su respuesta está siendo procesada...")
+        send_response_to_wp(sender_id, "Su respuesta está siendo procesada.")
         # in case we want to create more endpoints:
         api_post_prompt = "/"
 

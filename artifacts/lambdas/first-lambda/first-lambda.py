@@ -1,9 +1,8 @@
 import json
-import requests
 import os
 import boto3
 
-access_token = os.getenv("VERIFY_TOKEN")
+verification_token = os.getenv("VERIFY_TOKEN")
 phone_number_id = os.getenv("WHATSAPP_PHONE_NUMBER_ID")
 whatsapp_app_token = os.getenv("WHATSAPP_APP_TOKEN")
 function_mll_handler_arn = os.getenv("MLL_HANDLER_ARN")
@@ -12,7 +11,7 @@ client = boto3.client("lambda")
 
 # Whatsapp API Webhook check
 def check_subscription(event):
-    wp_token = access_token
+    wp_token = verification_token
     if event["queryStringParameters"]["hub.verify_token"] == wp_token:
         return {
             "statusCode": 200,
@@ -43,7 +42,6 @@ def handler(event, context):
     method = event["requestContext"]["http"]["method"]
     if method == "GET":
         r = check_subscription(event)
-        print(f"Check subscription: {r}")
         return r
 
     elif method == "POST":
